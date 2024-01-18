@@ -3,7 +3,7 @@ This is a modern statistics calculator app built with python
 and the CustomTkinter class which is slightly different from 
 the normal Tkinter class but has more appealing widgets.
 
-<img src ="screenshot_1.png" alt="Main interface">
+<img src ="Screenshot_1.png" alt="Main interface">
 
 # Calculations
 When you insert data, of a population or sample, it will perform
