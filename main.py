@@ -10,8 +10,6 @@ def std():
         stdev_function = pstdev if population_var.get() else stdev # determine standard deviation function 
         result = stdev_function(data_list) # set the selected function in a variable
         mean_ = mean(data_list) # calculate the mean
-        median_ = median
-        # print(mean_)
         cov = result / mean_ * 100 # calculate the coefficient of variation
 
         std.configure(text=f"Standard deviation: {result}") # display the standard deviation
