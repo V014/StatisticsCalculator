@@ -1,5 +1,6 @@
 from msilib.schema import TextStyle
-from statistics import median, stdev, pstdev, mean # The standard python class
+import statistics as st # The standard python class
+import matplotlib.pyplot as pp
 import customtkinter # Import the theme class
 
 def std():
@@ -7,10 +8,16 @@ def std():
         data = entry.get() # Get data from entry widget
         entries = data.split(',') # Split the data from its commas ['1','2','3']
         data_list = [int(x) for x in entries] # convert the data into int
-        stdev_function = pstdev if population_var.get() else stdev # determine standard deviation function 
+        stdev_function = st.pstdev if population_var.get() else st.stdev # determine standard deviation function 
         result = stdev_function(data_list) # set the selected function in a variable
-        mean_ = mean(data_list) # calculate the mean
+        mean_ = st.mean(data_list) # calculate the mean
         cov = result / mean_ * 100 # calculate the coefficient of variation
+        vari = st.pvariance(data_list)
+        sdx = tuple(data_list-mean_ for data_list in data_list)
+        print("Standard deviations: " + str(sdx))
+        varx = tuple(data_list*data_list for data_list in sdx)
+        print("Variances " + str(varx))
+        pp.bar(tuple(str(data_list) for data_list in data_list),sdx)
 
         std.configure(text=f"Standard deviation: {result}") # display the standard deviation
         cv.configure(text=f"Coefficient of Variation: {cov}") # display the coefficient of variance
@@ -45,6 +52,9 @@ std.pack()
 
 cv = customtkinter.CTkLabel(app, text="")
 cv.pack()
+
+variance = customtkinter.CTkLabel(app, text="")
+variance.pack()
 
 footer = customtkinter.CTkLabel(app, text="Orbit Media - Copyright© 2024")
 footer.pack()
