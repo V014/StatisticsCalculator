@@ -1,4 +1,3 @@
-from msilib.schema import TextStyle
 import statistics as st # The standard python class
 import matplotlib.pyplot as pp
 import customtkinter # Import the theme class
@@ -10,22 +9,26 @@ def std():
         data_list = [int(x) for x in entries] # convert the data into int
         stdev_function = st.pstdev if population_var.get() else st.stdev # determine standard deviation function 
         result = stdev_function(data_list) # set the selected function in a variable
-        mean_ = st.mean(data_list) # calculate the mean
-        cov = result / mean_ * 100 # calculate the coefficient of variation
-        vari = st.pvariance(data_list)
-        sdx = tuple(data_list-mean_ for data_list in data_list)
-        print("Standard deviations: " + str(sdx))
-        varx = tuple(data_list*data_list for data_list in sdx)
-        print("Variances " + str(varx))
-        pp.bar(tuple(str(data_list) for data_list in data_list),sdx)
 
-        std.configure(text=f"Standard deviation: {result}") # display the standard deviation
+        mean = st.mean(data_list) # calculate the mean
+        cov = result / mean * 100 # calculate the coefficient of variation
+        p_var = st.pvariance(data_list)
+        sdx = tuple(data_list - mean for data_list in data_list)
+        s_var = tuple(data_list*data_list for data_list in sdx)
+
+        label_std.configure(text=f"Standard deviation: {result}") # display the standard deviation
         cv.configure(text=f"Coefficient of Variation: {cov}") # display the coefficient of variance
-        mn.configure(text=f"Mean: {mean_}") # display the mean
-    except ValueError: std.config(text="Invalid input") # in case of wrong input
+        label_mean.configure(text=f"Mean: {mean}") # display the mean
+        variances.configure(text=f"Variances: {str(sdx)}" )
+        pvariance.configure(text=f"Population Variances: {str(p_var)}" )
+        # print("Standard deviations: " + str(sdx))
+        squared_variances.configure(text=f"Squared Variances " + str(s_var))
+        pp.bar(tuple(str(data) for data in data),sdx)
+
+    except ValueError: label_error.configure(text="There is an error in the code") # in case of wrong input
 
 app = customtkinter.CTk() # declare the window, call it what you like, I went with app
-app.geometry("350x350") # declare the size
+app.geometry("350x450") # declare the size
 app.title("Statistics Calculator") # declare the title
 
 frame = customtkinter.CTkFrame(master=app)
@@ -44,17 +47,26 @@ population_var = customtkinter.BooleanVar()
 toggle = customtkinter.CTkCheckBox(frame, text="Population data", variable=population_var)
 toggle.pack()
 
-mn = customtkinter.CTkLabel(app, text="")
-mn.pack()
+label_mean = customtkinter.CTkLabel(app, text="")
+label_mean.pack()
 
-std = customtkinter.CTkLabel(app, text="")
-std.pack()
+label_std = customtkinter.CTkLabel(app, text="")
+label_std.pack()
 
 cv = customtkinter.CTkLabel(app, text="")
 cv.pack()
 
-variance = customtkinter.CTkLabel(app, text="")
-variance.pack()
+variances = customtkinter.CTkLabel(app, text="")
+variances.pack()
+
+squared_variances = customtkinter.CTkLabel(app, text="")
+squared_variances.pack()
+
+pvariance = customtkinter.CTkLabel(app, text="")
+pvariance.pack()
+
+label_error = customtkinter.CTkLabel(app, text="", text_color='red')
+label_error.pack()
 
 footer = customtkinter.CTkLabel(app, text="Orbit Media - Copyright© 2024")
 footer.pack()
