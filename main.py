@@ -23,9 +23,9 @@ def std():
         pvariance.configure(text=f"Population Variances: {str(p_var)}" )
         # print("Standard deviations: " + str(sdx))
         squared_variances.configure(text=f"Squared Variances " + str(s_var))
-        pp.bar(tuple(str(data) for data in data),sdx)
+        # pp.bar(tuple(str(data) for data in data),sdx)
 
-    except ValueError: label_error.configure(text="There is an error in the code") # in case of wrong input
+    except ValueError: label_error.configure(text="There is idle code") # in case of wrong input
 
 app = customtkinter.CTk() # declare the window, call it what you like, I went with app
 app.geometry("350x450") # declare the size
