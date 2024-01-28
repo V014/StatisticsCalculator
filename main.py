@@ -1,5 +1,8 @@
 import statistics as st # The standard python class
+import matplotlib
 import matplotlib.pyplot as pp
+matplotlib.use('TkAgg')  # Set the backend explicitly
+from PIL import ImageTk
 import customtkinter # Import the theme class
 
 def std():
@@ -20,12 +23,15 @@ def std():
         cv.configure(text=f"Coefficient of Variation: {cov}") # display the coefficient of variance
         label_mean.configure(text=f"Mean: {mean}") # display the mean
         variances.configure(text=f"Variances: {str(sdx)}" )
-        pvariance.configure(text=f"Population Variances: {str(p_var)}" )
-        # print("Standard deviations: " + str(sdx))
         squared_variances.configure(text=f"Squared Variances " + str(s_var))
-        # pp.bar(tuple(str(data) for data in data),sdx)
-
-    except ValueError: label_error.configure(text="There is idle code") # in case of wrong input
+        pvariance.configure(text=f"Population Variances: {str(p_var)}" )
+        
+        pp.bar(tuple(str(val) for val in data_list), sdx)
+        pp.show()  # Display the plot
+        # print("Standard deviations: " + str(sdx))
+        # print(data_list)
+    except ValueError as e: 
+        label_error.configure(text=str(e)) # in case of wrong input or error
 
 app = customtkinter.CTk() # declare the window, call it what you like, I went with app
 app.geometry("350x450") # declare the size
