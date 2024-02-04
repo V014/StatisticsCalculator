@@ -1,9 +1,9 @@
 import statistics as st # The standard python class
-import matplotlib
-import matplotlib.pyplot as pp
-matplotlib.use('TkAgg')  # Set the backend explicitly
-from PIL import ImageTk
 import customtkinter # Import the theme class
+# import matplotlib
+# import matplotlib.pyplot as pp
+# matplotlib.use('TkAgg')  # Set the backend explicitly
+# from PIL import ImageTk
 
 def std():
     try:
@@ -15,27 +15,39 @@ def std():
 
         mean = st.mean(data_list) # calculate the mean
         cov = result / mean * 100 # calculate the coefficient of variation
-        p_var = st.pvariance(data_list)
-        sdx = tuple(data_list - mean for data_list in data_list)
-        s_var = tuple(data_list*data_list for data_list in sdx)
+        p_var = st.pvariance(data_list) # calculate population variances
+        sdx = tuple(data_list - mean for data_list in data_list) # calculate variances
+        sq_var = tuple(data_list*data_list for data_list in sdx) # calculate squared variances
+        s_var = st.variance(data_list)
 
         label_std.configure(text=f"Standard deviation: {result}") # display the standard deviation
         cv.configure(text=f"Coefficient of Variation: {cov}") # display the coefficient of variance
         label_mean.configure(text=f"Mean: {mean}") # display the mean
-        variances.configure(text=f"Variances: {str(sdx)}" )
-        squared_variances.configure(text=f"Squared Variances " + str(s_var))
-        pvariance.configure(text=f"Population Variances: {str(p_var)}" )
+
+        variance.configure(text=f"Variance: {str(s_var)}") # display total variance
+        variances.configure(text=f"Variances: {str(sdx)}" ) # display variances
+        squared_variances.configure(text=f"Squared Variances " + str(sq_var)) # display squared variances
+        pvariance.configure(text=f"Population Variances: {str(p_var)}" ) # display population variances
         
-        pp.bar(tuple(str(val) for val in data_list), sdx)
-        pp.show()  # Display the plot
+        app.geometry("350x450")
+        # pp.bar(tuple(str(val) for val in data_list), sdx)
+        # pp.show()  # Display the plot
         # print("Standard deviations: " + str(sdx))
         # print(data_list)
     except ValueError as e: 
         label_error.configure(text=str(e)) # in case of wrong input or error
 
+# def menu_callback(choice):
+#     print("Clicked", choice)
+
 app = customtkinter.CTk() # declare the window, call it what you like, I went with app
-app.geometry("350x450") # declare the size
+app.geometry("350x300") # declare the size
 app.title("Statistics Calculator") # declare the title
+
+# menu
+# menu = customtkinter.CTkOptionMenu(app, values=['File', 'exit'], command=menu_callback)
+# menu.set('File')
+# menu.pack()
 
 frame = customtkinter.CTkFrame(master=app)
 frame.pack(pady=20, padx=60, fill="both", expand=True)
@@ -62,6 +74,9 @@ label_std.pack()
 cv = customtkinter.CTkLabel(app, text="")
 cv.pack()
 
+variance = customtkinter.CTkLabel(app, text="")
+variance.pack()
+
 variances = customtkinter.CTkLabel(app, text="")
 variances.pack()
 
@@ -73,8 +88,5 @@ pvariance.pack()
 
 label_error = customtkinter.CTkLabel(app, text="", text_color='red')
 label_error.pack()
-
-footer = customtkinter.CTkLabel(app, text="Orbit Media - Copyright© 2024")
-footer.pack()
 
 app.mainloop()
