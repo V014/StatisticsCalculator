@@ -11,23 +11,32 @@ def std():
         entries = data.split(',') # Split the data from its commas ['1','2','3']
         data_list = [int(x) for x in entries] # convert the data into int
         stdev_function = st.pstdev if population_var.get() else st.stdev # determine standard deviation function 
-        result = stdev_function(data_list) # set the selected function in a variable
+
+        sd = stdev_function(data_list) # set the selected function in a variable and calculate standard deviation
+        rd_sd = int(round(sd,0)) # round the standard deviation
 
         mean = st.mean(data_list) # calculate the mean
-        cov = result / mean * 100 # calculate the coefficient of variation
+        rd_mean = int(round(mean, 0)) # round the mean
+
+        s_var = st.variance(data_list) # calculate total variance
+        rd_s_var = int(round(s_var, 0)) # round variance
+        
         p_var = st.pvariance(data_list) # calculate population variances
-        sdx = tuple(data_list - mean for data_list in data_list) # calculate variances
+        rd_p_var = int(round(p_var, 0)) # round population variance
+
+        cov = rd_sd / rd_mean * 100 # calculate the coefficient of variation
+        
+        sdx = tuple(data_list - rd_mean for data_list in data_list) # calculate variances
         sq_var = tuple(data_list*data_list for data_list in sdx) # calculate squared variances
-        s_var = st.variance(data_list)
-
-        label_std.configure(text=f"Standard deviation: {result}") # display the standard deviation
+        
+        label_std.configure(text=f"Standard deviation: {rd_sd}") # display the standard deviation
         cv.configure(text=f"Coefficient of Variation: {cov}") # display the coefficient of variance
-        label_mean.configure(text=f"Mean: {mean}") # display the mean
+        label_mean.configure(text=f"Mean: {rd_mean}") # display the mean
 
-        variance.configure(text=f"Variance: {str(s_var)}") # display total variance
+        variance.configure(text=f"Variance: {str(rd_s_var)}") # display total variance
         variances.configure(text=f"Variances: {str(sdx)}" ) # display variances
         squared_variances.configure(text=f"Squared Variances " + str(sq_var)) # display squared variances
-        pvariance.configure(text=f"Population Variances: {str(p_var)}" ) # display population variances
+        pvariance.configure(text=f"Population Variances: {str(rd_p_var)}" ) # display population variances
         
         app.geometry("350x450")
         # pp.bar(tuple(str(val) for val in data_list), sdx)
@@ -77,14 +86,14 @@ cv.pack()
 variance = customtkinter.CTkLabel(app, text="")
 variance.pack()
 
+pvariance = customtkinter.CTkLabel(app, text="")
+pvariance.pack()
+
 variances = customtkinter.CTkLabel(app, text="")
 variances.pack()
 
 squared_variances = customtkinter.CTkLabel(app, text="")
 squared_variances.pack()
-
-pvariance = customtkinter.CTkLabel(app, text="")
-pvariance.pack()
 
 label_error = customtkinter.CTkLabel(app, text="", text_color='red')
 label_error.pack()
