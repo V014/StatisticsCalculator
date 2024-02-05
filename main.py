@@ -48,7 +48,17 @@ def std():
 
 def reset():
     try:
+        app.geometry("350x250")
         entry.configure(placeholder_text="eg. 2,4,6,8")
+        label_std.configure(text="")
+        label_mean.configure(text="")
+        label_error.configure(text="")
+        variance.configure(text="")
+        variances.configure(text="")
+        pvariance.configure(text="")
+        squared_variances.configure(text="")
+        cv.configure(text="")
+
     except ValueError as e:
         label_error.configure(text=str(e)) # in case of wrong input or error
 
