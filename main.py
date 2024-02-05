@@ -38,7 +38,7 @@ def std():
         squared_variances.configure(text=f"Squared Variances " + str(sq_var)) # display squared variances
         pvariance.configure(text=f"Population Variances: {str(rd_p_var)}" ) # display population variances
         
-        app.geometry("350x450")
+        app.geometry("350x480")
         # pp.bar(tuple(str(val) for val in data_list), sdx)
         # pp.show()  # Display the plot
         # print("Standard deviations: " + str(sdx))
@@ -46,17 +46,15 @@ def std():
     except ValueError as e: 
         label_error.configure(text=str(e)) # in case of wrong input or error
 
-# def menu_callback(choice):
-#     print("Clicked", choice)
+def reset():
+    try:
+        entry.configure(placeholder_text="eg. 2,4,6,8")
+    except ValueError as e:
+        label_error.configure(text=str(e)) # in case of wrong input or error
 
 app = customtkinter.CTk() # declare the window, call it what you like, I went with app
-app.geometry("350x300") # declare the size
+app.geometry("350x250") # declare the size
 app.title("Statistics Calculator") # declare the title
-
-# menu
-# menu = customtkinter.CTkOptionMenu(app, values=['File', 'exit'], command=menu_callback)
-# menu.set('File')
-# menu.pack()
 
 frame = customtkinter.CTkFrame(master=app)
 frame.pack(pady=20, padx=60, fill="both", expand=True)
@@ -70,9 +68,12 @@ entry.pack(padx=5, pady=20)
 calc_btn = customtkinter.CTkButton(frame, text="Calculate", command=std)
 calc_btn.pack(pady=10)
 
+reset_btn = customtkinter.CTkButton(frame, text="Reset", command=reset)
+reset_btn.pack(pady=10)
+
 population_var = customtkinter.BooleanVar()
 toggle = customtkinter.CTkCheckBox(frame, text="Population data", variable=population_var)
-toggle.pack()
+toggle.pack(pady=10)
 
 label_mean = customtkinter.CTkLabel(app, text="")
 label_mean.pack()
