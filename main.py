@@ -25,12 +25,13 @@ def std():
         rd_p_var = int(round(p_var, 0)) # round population variance
 
         cov = rd_sd / rd_mean * 100 # calculate the coefficient of variation
+        rd_cov = int(round(cov, 0)) # round coefficient of variation
         
         sdx = tuple(data_list - rd_mean for data_list in data_list) # calculate variances
         sq_var = tuple(data_list*data_list for data_list in sdx) # calculate squared variances
         
         label_std.configure(text=f"Standard deviation: {rd_sd}") # display the standard deviation
-        cv.configure(text=f"Coefficient of Variation: {cov}") # display the coefficient of variance
+        cv.configure(text=f"Coefficient of Variation: {rd_cov}") # display the coefficient of variance
         label_mean.configure(text=f"Mean: {rd_mean}") # display the mean
 
         variance.configure(text=f"Variance: {str(rd_s_var)}") # display total variance
@@ -78,7 +79,7 @@ entry.pack(padx=5, pady=20)
 calc_btn = customtkinter.CTkButton(frame, text="Calculate", command=std)
 calc_btn.pack(pady=10)
 
-reset_btn = customtkinter.CTkButton(frame, text="Reset", command=reset)
+reset_btn = customtkinter.CTkButton(frame, text="Reset", fg_color="red", hover_color="dark red", command=reset)
 reset_btn.pack(pady=10)
 
 population_var = customtkinter.BooleanVar()
